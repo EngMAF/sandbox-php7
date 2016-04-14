@@ -1,0 +1,26 @@
+front:
+  build: .
+  ports:
+    - "80:80"
+    - "443:443"
+    - "9000:9000"
+  links:
+    - mysql:mysql
+  volumes:
+    - ./www:/www/
+  entrypoint: /usr/bin/supervisord
+
+mysql:
+  image: mysql
+  ports:
+    - "3306:3306"
+  volumes:
+    - ./data/mysql_dumb/:/mysql_dumb
+    - ./data/mysql/:/var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+
+redis:
+  image: redis
+  ports:
+    - "6379:6379"
